@@ -44,21 +44,21 @@ $indicatorsArr += $indicatorsJson.value
 
 
 
-if($indicatorsLen >= 100000){
-  $continue = Read-Host "Would you like to delete $indicatorsLen indicators? [y/n]"
+if($indicatorsLen -ge 100000){
+$continue = Read-Host "Would you like to delete $indicatorsLen indicators? [y/n]"
+
+$count = 0
+if ($continue -eq "y"){
+  $token = Get-AzAccessToken
+  $token = $token.token
+  $header = @{"Accept" = "application/json" ; "authorization" = "bearer $token"}
   
-  $count = 0
-  if ($continue -eq "y"){
-    $token = Get-AzAccessToken
-    $token = $token.token
-    $header = @{"Accept" = "application/json" ; "authorization" = "bearer $token"}
-    
-    foreach ($indicatorName in $indicatorsArr.name){
-      $count += 1
-      Invoke-WebRequest -Uri "https://management.azure.com/subscriptions/$subId/resourceGroups/$rgName/providers/Microsoft.OperationalInsights/workspaces/$laName/providers/Microsoft.SecurityInsights/threatIntelligence/main/indicators/$indicatorName?api-version=2023-11-01" -Method Delete -Header $header
-      Write-Host "Deleted $count indicators so far..."
-    }}
-  $indicatorsArr = @()
+  foreach ($indicatorName in $indicatorsArr.name){
+    $count += 1
+
+    Write-Host "Deleted $count indicators so far..."
+  }}
+$indicatorsArr = @()
 }
 
 $nextLink = $indicatorsJson.nextLink
