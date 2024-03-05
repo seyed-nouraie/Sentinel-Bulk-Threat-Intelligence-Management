@@ -55,7 +55,7 @@ if ($continue -eq "y"){
   
   foreach ($indicatorName in $indicatorsArr.name){
     $count += 1
-
+    Invoke-WebRequest -Uri "https://management.azure.com/subscriptions/$subId/resourceGroups/$rgName/providers/Microsoft.OperationalInsights/workspaces/$laName/providers/Microsoft.SecurityInsights/threatIntelligence/main/indicators/$indicatorName?api-version=2023-11-01" -Method Delete -Header $header
     Write-Host "Deleted $count indicators so far..."
   }}
 $indicatorsArr = @()
