@@ -29,6 +29,7 @@ $indicatorsArr += $indicatorsJson.value
 
 $nextLink = $indicatorsJson.nextLink
 
+$count = 0
 while ($nextLink -ne $null){
 $indicatorsLen = $indicatorsArr.length
 Write-Host "Reading next batch of indicators..."
@@ -47,7 +48,6 @@ $indicatorsArr += $indicatorsJson.value
 if($indicatorsLen -ge 100000){
 $continue = Read-Host "Would you like to delete $indicatorsLen indicators? [y/n]"
 
-$count = 0
 if ($continue -eq "y"){
   $token = Get-AzAccessToken
   $token = $token.token
