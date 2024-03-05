@@ -32,7 +32,7 @@ $nextLink = $indicatorsJson.nextLink
 $count = 0
 while ($nextLink -ne $null){
 $indicatorsLen = $indicatorsArr.length
-Write-Host "Reading next batch of indicators..."
+Write-Host "Currently read $indicatorsLen indicators. Reading next batch of indicators..."
 $skipToken = $indicatorsJson.nextLink.Substring($indicatorsJson.nextlink.indexof("skipToken") + 10)
 
 $body.skipToken = $skipToken
