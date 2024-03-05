@@ -36,7 +36,7 @@ $skipToken = $indicatorsJson.nextLink.Substring($indicatorsJson.nextlink.indexof
 $body.skipToken = $skipToken
 $requestJson = $body | ConvertTo-Json
 
-$indicators = Invoke-WebRequest -Uri "https://management.azure.com/subscriptions/$subId/resourceGroups/$rgName/providers/Microsoft.OperationalInsights/workspaces/$laName/providers/Microsoft.SecurityInsights/threatIntelligence/main/queryIndicators?api-version=2023-11-01" -Header $header -Body $requestJson -Method Post -ContentType "application/json"
+$indicators = Invoke-WebRequest -Uri "https://management.azure.com/subscriptions/$subId/resourceGroups/$rgName/providers/Microsoft.OperationalInsights/workspaces/$laName/providers/Microsoft.SecurityInsights/threatIntelligence/main/queryIndicators\?api-version=2023-11-01" -Header $header -Body $requestJson -Method Post -ContentType "application/json"
 $indicatorsJson = $indicators.Content | ConvertFrom-Json
 
 $indicatorsArr += $indicatorsJson.value
