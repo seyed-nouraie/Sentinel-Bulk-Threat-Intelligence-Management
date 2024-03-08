@@ -47,7 +47,7 @@ $indicatorsArr += $indicatorsJson.value
 
 
 
-if($indicatorsLen -ge 50000){
+if($indicatorsLen -ge 500){
 $continue = "n"
 if ($force -eq "n"){
   $continue = Read-Host "Would you like to delete $indicatorsLen indicators? [y/n]"
