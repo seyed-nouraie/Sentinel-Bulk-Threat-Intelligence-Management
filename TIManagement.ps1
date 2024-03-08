@@ -6,7 +6,7 @@ $subId = Read-Host "Please enter your subscription ID"
 $rgName = Read-Host "Please enter your resource group name"
 $laName = Read-Host "Please enter your workspace name"
 
-$force = Read-Host "Would you like to force delete without being prompted?"
+$force = Read-Host "Would you like to force delete without being prompted? [y/n]"
 
 $metrics = Invoke-WebRequest -Uri "https://management.azure.com/subscriptions/$subId/resourceGroups/$rgName/providers/Microsoft.OperationalInsights/workspaces/$laName/providers/Microsoft.SecurityInsights/threatIntelligence/main/metrics?api-version=2023-11-01" -Header $header
 
@@ -48,10 +48,16 @@ $indicatorsArr += $indicatorsJson.value
 
 
 if($indicatorsLen -ge 50000){
-$continue = Read-Host "Would you like to delete $indicatorsLen indicators? [y/n]"
-
-if ($continue -eq "y" -or $force -eq $true){
-  $token = Get-AzAccessToken
+$continue = "n"
+if ($force -eq "n"){
+  $continue = Read-Host "Would you like to delete $indicatorsLen indicators? [y/n]"
+}
+if ($continue -eq "y" -or $force -eq "y"){
+  $token = Get-AzAccessToken -erroraction silentlyContinue
+  if (!($token)){
+	connect-azaccount -usedeviceauthentication -subscription $subId
+	$token = Get-AzAccessToken
+}
   $token = $token.token
   $header = @{"Accept" = "application/json" ; "authorization" = "bearer $token"}
   
